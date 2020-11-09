@@ -1,8 +1,12 @@
 # HackBrowserData
 
+![CI](https://github.com/moonD4rk/HackBrowserData/workflows/CI/badge.svg?branch=master) ![Build Hack-Browser-Data Release](https://github.com/moonD4rk/HackBrowserData/workflows/Build%20Hack-Browser-Data%20Release/badge.svg)
+
 [中文说明](https://github.com/moonD4rk/HackBrowserData/blob/master/README_ZH.md) 
 
 hack-browser-data is an open-source tool that could help you decrypt data ( passwords|bookmarks|cookies|history ) from the browser. It supports the most popular browsers on the market and runs on Windows, macOS and Linux.
+
+> Statement: This tool is limited to security research only, and the user assumes all legal and related responsibilities arising from its use! The author assumes no legal responsibility!
 
 ### Supported Browser
 
@@ -14,6 +18,7 @@ hack-browser-data is an open-source tool that could help you decrypt data ( pass
 | Microsoft Edge |    ✅    |   ✅   |    ✅    |    ✅    |
 | 360 Speed Browser |    ✅    |   ✅   |    ✅    |    ✅    |
 | QQ Browser |    ✅    |   ✅   |    ✅    |    ✅    |
+| Brave Browser |    ✅    |   ✅   |    ✅    |    ✅    |
 | Internet Explorer |    ❌    |   ❌   |    ❌    |    ❌    |
 
 #### MacOS
@@ -25,6 +30,7 @@ Based on Apple's security policy, some browsers **require a current user passwor
 | Google Chrome |    ✅    |   ✅   |    ✅    |    ✅    |
 | Firefox |    ✅    |   ✅   |    ✅    |    ✅    |
 | Microsoft Edge |    ✅    |   ✅   |    ✅    |    ✅    |
+| Brave Browser |    ✅    |   ✅   |    ✅    |    ✅    |
 | Safari |    ❌    |   ❌   |    ❌    |    ❌    |
 
 #### Linux
@@ -33,11 +39,15 @@ Based on Apple's security policy, some browsers **require a current user passwor
 | :---------------------------------- | :------: | :----: | :------: | :-----: |
 | Firefox |    ✅    |   ✅   |    ✅    |    ✅    |
 | Google Chrome |    ✅    |   ✅   |    ✅    |    ✅    |
+| Microsoft Edge Dev |    ✅    |   ✅   |    ✅    |    ✅    |
+| Brave Browser |    ✅    |   ✅   |    ✅    |    ✅    |
 
 
 ### Install
 
 Installation of hack-browser-data is dead-simple, just download [the release for your system](https://github.com/moonD4rk/HackBrowserData/releases) and run the binary.
+
+> In some situations, this security tool will be treated as a virus by Windows Defender or other antivirus software and can not be executed, after version 0.2.6 will use UPX try to simply bypass, then no longer with antivirus software to do unnecessary security confrontations.The code is all open source, you can modify and compile by yourself.
 
 #### Building from source
 
@@ -55,7 +65,7 @@ go build
 
 ##### Cross compile
 
-Need install target OS's `gcc` library, here's an example of use `Mac` building for `Windows` and `Linus`
+Need install target OS's `gcc` library, here's an example of use `Mac` building for `Windows` and `Linux`
 
 **Windows**
 
@@ -85,7 +95,7 @@ USAGE:
    [hack-browser-data -b chrome -f json -dir results -cc]
    Get all data(password/cookie/history/bookmark) from chrome
 VERSION:
-   0.2.3
+   0.2.6
 GLOBAL OPTIONS:
    --verbose, --vv                   Verbose (default: false)
    --compress, --cc                  Compress result to zip (default: false)

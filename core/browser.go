@@ -15,6 +15,7 @@ const (
 	firefoxName   = "Firefox"
 	speed360Name  = "360speed"
 	qqBrowserName = "qq"
+	braveName     = "Brave"
 )
 
 type Browser interface {
@@ -99,11 +100,12 @@ type Chromium struct {
 	name        string
 	profilePath string
 	keyPath     string
+	storage     string // use for linux browser
 	secretKey   []byte
 }
 
-func NewChromium(profile, key, name string) (Browser, error) {
-	return &Chromium{profilePath: profile, keyPath: key, name: name}, nil
+func NewChromium(profile, key, name, storage string) (Browser, error) {
+	return &Chromium{profilePath: profile, keyPath: key, name: name, storage: storage}, nil
 }
 
 func (c *Chromium) GetName() string {
@@ -149,7 +151,7 @@ type Firefox struct {
 	keyPath     string
 }
 
-func NewFirefox(profile, key, name string) (Browser, error) {
+func NewFirefox(profile, key, name, storage string) (Browser, error) {
 	return &Firefox{profilePath: profile, keyPath: key, name: name}, nil
 }
 
@@ -221,7 +223,7 @@ func PickBrowser(name string) ([]Browser, error) {
 	name = strings.ToLower(name)
 	if name == "all" {
 		for _, v := range browserList {
-			b, err := v.New(v.ProfilePath, v.KeyPath, v.Name)
+			b, err := v.New(v.ProfilePath, v.KeyPath, v.Name, v.Storage)
 			if err != nil {
 				log.Error(err)
 			}
@@ -229,7 +231,7 @@ func PickBrowser(name string) ([]Browser, error) {
 		}
 		return browsers, nil
 	} else if choice, ok := browserList[name]; ok {
-		b, err := choice.New(choice.ProfilePath, choice.KeyPath, choice.Name)
+		b, err := choice.New(choice.ProfilePath, choice.KeyPath, choice.Name, choice.Storage)
 		browsers = append(browsers, b)
 		return browsers, err
 	}

@@ -13,6 +13,7 @@ const (
 	chromeProfilePath  = "/Users/*/Library/Application Support/Google/Chrome/*/"
 	edgeProfilePath    = "/Users/*/Library/Application Support/Microsoft Edge/*/"
 	fireFoxProfilePath = "/Users/*/Library/Application Support/Firefox/Profiles/*.default-release/"
+	braveProfilePath   = "/Users/*/Library/Application Support/BraveSoftware/Brave-Browser/*/"
 )
 
 var (
@@ -20,8 +21,14 @@ var (
 		ProfilePath string
 		Name        string
 		KeyPath     string
-		New         func(profile, key, name string) (Browser, error)
+		Storage     string
+		New         func(profile, key, name, storage string) (Browser, error)
 	}{
+		"firefox": {
+			ProfilePath: fireFoxProfilePath,
+			Name:        firefoxName,
+			New:         NewFirefox,
+		},
 		"chrome": {
 			ProfilePath: chromeProfilePath,
 			Name:        chromeName,
@@ -32,10 +39,10 @@ var (
 			Name:        edgeName,
 			New:         NewChromium,
 		},
-		"firefox": {
-			ProfilePath: fireFoxProfilePath,
-			Name:        firefoxName,
-			New:         NewFirefox,
+		"brave": {
+			ProfilePath: braveProfilePath,
+			Name:        braveName,
+			New:         NewChromium,
 		},
 	}
 )

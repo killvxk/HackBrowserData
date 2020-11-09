@@ -15,14 +15,17 @@ jobs:
                     - os: windows-latest
                       goos: windows
                       bin: 'hack-browser-data.exe'
+                      args: -9
                       releaseos: windows
                     - os: macos-latest
                       goos: darwin
                       bin: 'hack-browser-data'
+                      args: -9
                       releaseos: osx
                     - os: ubuntu-latest
                       goos: linux
                       bin: 'hack-browser-data'
+                      args: -9
                       releaseos: linux
                 exclude:
                     - os: macos-latest
@@ -37,9 +40,12 @@ jobs:
             - if: matrix.os == 'ubuntu-latest'
               run: sudo apt-get update && sudo apt-get install -y gcc-multilib
             - if: matrix.arch == '386'
-              run: echo "::set-env name=RELEASE::hack-browser-data-${{ github.event.release.tag_name }}-${{ matrix.releaseos}}-32bit"
+              run: echo "RELEASE=hack-browser-data-${{ github.event.release.tag_name}}-${{ matrix.releaseos}}-32bit" >> $GITHUB_ENV
             - if: matrix.arch == 'amd64'
-              run: echo "::set-env name=RELEASE::hack-browser-data-${{ github.event.release.tag_name}}-${{ matrix.releaseos}}-64bit"
+              run: echo "RELEASE=hack-browser-data-${{ github.event.release.tag_name}}-${{ matrix.releaseos}}-64bit" >> $GITHUB_ENV
+            - if: matrix.os == 'windows-latest'
+              shell: powershell
+              run: echo "RELEASE=hack-browser-data-${{ github.event.release.tag_name}}-${{ matrix.releaseos}}-64bit" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
             - uses: actions/checkout@v2
             - name: Build ${{ matrix.goos }}/${{ matrix.arch }}
               run: go build -ldflags '-w -s' -o ${{ matrix.bin }}
@@ -47,6 +53,10 @@ jobs:
                 GOOS: ${{ matrix.goos }}
                 GOARCH: ${{ matrix.arch }}
                 CGO_ENABLED: 1
+            - uses: svenstaro/upx-action@v2
+              with:
+                args: ${{ matrix.args }}
+                file: ${{ matrix.bin }}
             - name: Upload to artifacts
               uses: actions/upload-artifact@v2
               with:
